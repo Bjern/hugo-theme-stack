@@ -64,6 +64,62 @@
     }
 }
 
+/* WorkWhale CTA banner */
+.workwhale-cta {
+    display: flex;
+    gap: var(--section-separation);
+    margin: var(--section-separation) 0;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
+
+    &__card {
+        flex: 1;
+        background-color: var(--accent-color);
+        color: var(--accent-color-text);
+        border-radius: var(--card-border-radius);
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        box-shadow: var(--shadow-l1);
+    }
+
+    &__title {
+        margin: 0;
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--accent-color-text);
+    }
+
+    &__description {
+        margin: 0;
+        font-size: 1.4rem;
+        opacity: 0.9;
+        flex-grow: 1;
+        color: var(--accent-color-text);
+    }
+
+    &__button {
+        display: inline-block;
+        background-color: var(--accent-color-text);
+        color: var(--accent-color);
+        font-size: 1.4rem;
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: opacity 0.2s ease;
+        align-self: flex-start;
+
+        &:hover {
+            opacity: 0.85;
+            text-decoration: none;
+        }
+    }
+}
+
 .subsection-list {
     --shadow-overlap-x: calc(var(--shadow-l2-blur) + 4px);
     --shadow-overlap-y: calc(var(--shadow-l2-blur) + var(--shadow-l2-y) + 4px);

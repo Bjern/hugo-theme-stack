@@ -1,4 +1,18 @@
-{{/* WorkWhale CTA banner placeholder — full implementation in task 6 */}}
 {{ if .Site.Params.cta.enabled }}
-<!-- WorkWhale CTA placeholder -->
+<div class="workwhale-cta">
+    <div class="workwhale-cta__card workwhale-cta__card--jobseeker">
+        <h3 class="workwhale-cta__title">{{ .Site.Params.cta.jobSeekerTitle }}</h3>
+        <p class="workwhale-cta__description">{{ .Site.Params.cta.jobSeekerDescription }}</p>
+        <a href="{{ .Site.Params.cta.jobSeekerUrl }}" class="workwhale-cta__button" target="_blank" rel="noopener">
+            {{ .Site.Params.cta.jobSeekerButton }}
+        </a>
+    </div>
+    <div class="workwhale-cta__card workwhale-cta__card--agency">
+        <h3 class="workwhale-cta__title">{{ .Site.Params.cta.agencyTitle }}</h3>
+        <p class="workwhale-cta__description">{{ .Site.Params.cta.agencyDescription }}</p>
+        <a href="{{ .Site.Params.cta.agencyUrl }}" class="workwhale-cta__button" target="_blank" rel="noopener">
+            {{ .Site.Params.cta.agencyButton }}
+        </a>
+    </div>
+</div>
 {{ end }}

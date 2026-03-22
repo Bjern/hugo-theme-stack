@@ -32,6 +32,8 @@
 
     {{ partial "ad-unit.html" (dict "Site" .Site "slot" .Site.Params.ads.endOfArticleSlot) }}
 
+    {{ partial "cta-workwhale.html" . }}
+
     {{ partial "article/components/related-content" . }}
      
     {{ if not (eq .Params.comments false) }}
