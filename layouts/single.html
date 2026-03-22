@@ -30,6 +30,8 @@
         {{ partial "article/components/links" . }}
     {{ end }}
 
+    {{ partial "ad-unit.html" (dict "Site" .Site "slot" .Site.Params.ads.endOfArticleSlot) }}
+
     {{ partial "article/components/related-content" . }}
      
     {{ if not (eq .Params.comments false) }}

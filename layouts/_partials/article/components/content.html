@@ -1,5 +1,23 @@
 <section class="article-content">
     <!-- Refer to https://discourse.gohugo.io/t/responsive-tables-in-markdown/10639/5 -->
     {{ $wrappedTable := printf "<div class=\"table-wrapper\">${1}</div>" }}
-    {{ .Content | replaceRE "(<table>(?:.|\n)+?</table>)" $wrappedTable | safeHTML }}
+    {{ $content := .Content | replaceRE "(<table>(?:.|\n)+?</table>)" $wrappedTable }}
+
+    {{- if .Site.Params.ads.enabled -}}
+        {{/* Split content after the 3rd closing </p> tag */}}
+        {{ $paragraphs := findRE "</p>" $content }}
+        {{ if ge (len $paragraphs) 3 }}
+            {{/* Find position of 3rd </p> and split there */}}
+            {{ $splitPattern := "(?s)((?:.*?</p>){3})(.*)" }}
+            {{ $before := replaceRE $splitPattern "${1}" $content }}
+            {{ $after := replaceRE $splitPattern "${2}" $content }}
+            {{ $before | safeHTML }}
+            {{ partial "ad-unit.html" (dict "Site" .Site "slot" .Site.Params.ads.inArticleSlot) }}
+            {{ $after | safeHTML }}
+        {{ else }}
+            {{ $content | safeHTML }}
+        {{ end }}
+    {{- else -}}
+        {{ $content | safeHTML }}
+    {{- end -}}
 </section>
