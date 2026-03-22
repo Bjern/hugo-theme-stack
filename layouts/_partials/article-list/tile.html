@@ -20,7 +20,7 @@
         {{ end }}
 
         <div class="article-details"
-            {{- if and $image (reflect.IsImageResourceProcessable $image.Resource) -}}
+            {{- if and $image $image.Resource (ne ($image.Resource.MediaType.SubType | default "") "svg") -}}
                 {{- $colors := $image.Resource.Colors -}}
                 {{- if $colors -}}
                     {{- $vibrant := index $colors 0 -}}

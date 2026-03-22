@@ -1,69 +1,52 @@
 /// Params:
 ///     Resources: Where to search for images
 ///     Image: Image URL
-///     Context: page context (used to access the configuration)
 
 /// Returns:
-///     Resource: Hugo image resource object
+///     Local: true if the image is local, false if it is remote
+///     Resource: Hugo image resource object, not nil if the image is local
 ///     Permalink: Image URL
 ///     Height: Image height
 ///     Width: Image width
 
-{{ $result := dict }}
+{{ $result := "" }}
 
 {{ if .Image }}
     {{ $url := urls.Parse .Image }}
-    {{ $permalink := .Image }}
-    {{ $resource := dict
-        "Resource" nil
-        "Permalink" $permalink
-        "Height" nil
-        "Width" nil
-    }}
-    {{ $local := true }}
-
+    {{ $resource := "" }}
     {{ if not (in (slice "https" "http") $url.Scheme) }}
-        {{/* Local image */}}
         {{ $resource = .Resources.Get (printf "%s" (.Image | safeURL)) }}
     {{ else }}
-        {{/* Remote image */}}
-        {{ with try (resources.GetRemote $url (dict "timeout" .Context.Site.Params.imageProcessing.external.timeout)) }}
+        {{ with try (resources.GetRemote $url) }}
             {{ with .Err }}
-                {{ warnf "Failed to fetch remote resource %q: %s" $url . }}
+                {{ errorf "%s" . }}
             {{ else with .Value }}
                 {{ $resource = . }}
-                {{ $local = false }}
             {{ else }}
-                {{ warnf "Unable to get remote resource %q" $url }}
+                {{ errorf "Unable to get remote resource %q" $url }}
             {{ end }}
-        {{ end }}   
+        {{ end }}
     {{ end }}
 
     {{ if $resource }}
-        {{ if and .Context.Site.Params.imageProcessing.autoOrient (reflect.IsImageResourceProcessable $resource) }}
-            {{ $filter := images.AutoOrient }}
-            {{ $resource = $resource | images.Filter $filter }}
-        {{ end }}
-
-        {{ if $local }}
-            {{ $permalink = $resource.RelPermalink }}
-        {{ end }}
-
-        {{ if reflect.IsImageResourceWithMeta $resource }}
+        {{- $isSVG := eq $resource.MediaType.SubType "svg"  -}}
+        {{- if $isSVG -}}
             {{ $result = dict
+                "Local" true
                 "Resource" $resource
-                "Permalink" $permalink
-                "Height" $resource.Height
-                "Width" $resource.Width
-            }}
-        {{ else }}
-            {{ $result = dict
-                "Resource" $resource
-                "Permalink" $permalink
+                "Permalink" $resource.RelPermalink
                 "Height" nil
                 "Width" nil
             }}
-        {{ end }}
+        {{- else -}}
+            {{- $result = dict
+                "Local" true
+                "Resource" $resource
+                "Permalink" $resource.RelPermalink
+                "Height" $resource.Height
+                "Width" $resource.Width
+            }}
+        {{- end -}}
     {{ end }}
 {{ end }}
 
