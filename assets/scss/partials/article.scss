@@ -26,6 +26,41 @@
     }
 }
 
+/* Masonry homepage card overrides */
+.article-list--masonry {
+    article {
+        .article-image {
+            img {
+                height: 150px;
+                max-height: 150px;
+                object-fit: cover;
+                object-position: center;
+
+                @include respond(md) {
+                    height: 150px;
+                }
+
+                @include respond(xl) {
+                    height: 150px;
+                }
+            }
+        }
+
+        .article-title {
+            font-size: 1.1rem;
+        }
+
+        .article-subtitle {
+            font-size: 0.85rem;
+        }
+
+        .article-details {
+            padding: 12px 15px;
+            gap: 8px;
+        }
+    }
+}
+
 .article-details {
     display: flex;
     flex-direction: column;

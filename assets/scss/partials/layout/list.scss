@@ -1,3 +1,23 @@
+/* Masonry 2-column layout for homepage */
+.article-list--masonry {
+    display: block;
+    columns: 2;
+    column-gap: var(--section-separation);
+
+    @media (max-width: 768px) {
+        columns: 1;
+    }
+
+    .masonry-item {
+        break-inside: avoid;
+        margin-bottom: var(--section-separation);
+
+        &.masonry-item--full {
+            column-span: all;
+        }
+    }
+}
+
 .section-card {
     @include card-style;
     padding: var(--small-card-padding);
