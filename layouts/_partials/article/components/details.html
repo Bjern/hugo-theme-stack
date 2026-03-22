@@ -15,16 +15,29 @@
     {{ end }}
 
     <div class="article-title-wrapper">
+        {{ if $IsList }}
         <h2 class="article-title">
             <a href="{{ $Page.RelPermalink }}">
                 {{- $Page.Title -}}
             </a>
         </h2>
-    
         {{ with $Page.Params.description }}
         <h3 class="article-subtitle">
             {{ . }}
         </h3>
+        {{ end }}
+        {{ else }}
+        <div class="article-title-row">
+            <h1 class="article-title">
+                {{- $Page.Title -}}
+            </h1>
+            {{ partial "article/components/share-button" $Page }}
+        </div>
+        {{ with $Page.Params.description }}
+        <p class="article-subtitle">
+            {{ . }}
+        </p>
+        {{ end }}
         {{ end }}
     </div>
 
